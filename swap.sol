@@ -450,7 +450,7 @@ contract FTokenBase is ReentrancyGuard, FNum {
 
 contract FToken is ReentrancyGuard, FTokenBase {
 
-    string  private _name     = "FEGexPair";
+    string  private _name     = "Pair";
     string  private _symbol   = "LP Token";
     uint8   private _decimals = 18;
 
@@ -596,10 +596,10 @@ contract SwapV2 is ReentrancyGuard, FToken, FMath {
     address public Token;
     address public pairRewardPool;
     address public burn = 0x000000000000000000000000000000000000dEaD;
-    address public FEGstake = 0xd2cD476Dd955EC713762EB830e467B50BADA4b6C;
+    address public stake = 0xd2cD476Dd955EC713762EB830e467B50BADA4b6C;
     uint public MAX_BUY_RATIO      = 1000000000000e18;
     uint public MAX_SELL_RATIO     = 1000000000000e18;
-    uint public FSS = 25; // FEGstake Share
+    uint public FSS = 25; // stake Share
     uint public PSS = 1; // pairRewardPool Share
     uint public RPF = 1000; //Smart Rising Price Floor Setting
     uint public SHR = 997; //p2p fee Token
@@ -678,7 +678,7 @@ contract SwapV2 is ReentrancyGuard, FToken, FMath {
     
     function setStakePool(address _addy) public {
         require(msg.sender == _controller, "You do not have permission");
-        FEGstake = _addy;
+        stake = _addy;
     }
     
     function setFSS(uint amt) public {
@@ -1166,7 +1166,7 @@ contract SwapV2 is ReentrancyGuard, FToken, FMath {
         _totalSupply7 = badd(_totalSupply7, amount); 
         
         if(_totalSupply7 > 2e14) {
-        bool xfer = IERC20(erc20).transfer(FEGstake, amount);
+        bool xfer = IERC20(erc20).transfer(stake, amount);
         require(xfer, "ERR_ERC20_FALSE");
         _totalSupply7 = 0;
         }
